@@ -36,6 +36,7 @@ jobs:
           containerAppName: uptimekuma
           resourceGroup: rg-network
           imageToBuild: wahidsaleemi/uptime-kuma:${{ github.sha }}
+          dockerFilePath: /
           
 
      
