@@ -35,7 +35,7 @@ jobs:
           registryPassword: ${{ secrets.UPTIMEKUMA_REGISTRY_PASSWORD }}
           containerAppName: uptimekuma
           resourceGroup: rg-network
-          imageToBuild: wahidsaleemi/louislam/uptime-kuma:${{ github.sha }}
+          imageToBuild: louislam/uptime-kuma:${{ github.sha }}
           
 
      
