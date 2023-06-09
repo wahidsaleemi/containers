@@ -1,0 +1,42 @@
+name: Trigger auto deployment for uptimekuma
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/uptimekuma-AutoDeployTrigger-c63d2d5c-dac8-43c4-9f49-2f5a549f6274.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.UPTIMEKUMA_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.UPTIMEKUMA_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.UPTIMEKUMA_REGISTRY_PASSWORD }}
+          containerAppName: uptimekuma
+          resourceGroup: rg-network
+          imageToBuild: wahidsaleemi/uptime-kuma:${{ github.sha }}
+          
+
+     
+
